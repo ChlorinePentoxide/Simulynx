@@ -5,10 +5,19 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: 'Block #1'
+  - name: Razoid Master Build
     task:
       jobs:
-        - name: 'Job #1'
+        - name: Maven Package
+          commands:
+            - 'git clone https://github.com/chlorinelabs/razoid.git'
+            - mvn package
+            - artifact push workflow target/razoid-1.0-beta.jar
+  - name: Simulynx Build
+    task:
+      jobs:
+        - name: Compilation
           commands:
             - checkout
-            - echo Helloo
+            - artifact pull workflow razoid-1.0-beta.jar
+            - 'mvn install:install-file -Dfile=razoid-1.0-beta.jar -DgroupId=org.chlorinelabs.razoid  -DartifactId=razoid -Dversion=1.0-beta -Dpackaging=jar'
