@@ -11,6 +11,7 @@ blocks:
         - name: Maven Package
           commands:
             - 'git clone https://github.com/chlorinelabs/razoid.git'
+            - cd razoid
             - mvn package
             - artifact push workflow target/razoid-1.0-beta.jar
   - name: Simulynx Build
